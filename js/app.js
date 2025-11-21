@@ -87,12 +87,9 @@ class MinificationApp {
         const hasContent = content.trim().length > 0;
         this.minifyCodeBtn.disabled = !hasContent;
 
-        if (!hasContent) {
-            this.updateLanguageLabel('text');
-            return;
-        }
-
-        const detected = ClientMinifier.detectLanguage(content);
+        const detected = hasContent
+            ? MinifyEngine.detectInputType({ content })
+            : 'text';
         this.updateLanguageLabel(detected);
     }
 
@@ -105,21 +102,13 @@ class MinificationApp {
     handleCodeMinify() {
         const content = this.codeInput.value;
         if (!content.trim()) {
-            alert('Cole algum código para minificar.');
+            this.handleError(new MinifyError('EMPTY_TEXT', 'Cole algum código para minificar.'));
             return;
         }
 
-        const detectedType = ClientMinifier.detectLanguage(content);
-        if (!ClientMinifier.isSupported(detectedType)) {
-            alert('Não foi possível detectar um tipo suportado para este código.');
-            return;
-        }
-
-        const fileName = `codigo-digitado.${detectedType}`;
         this.minifyContent({
             content,
-            fileName,
-            detectedType,
+            fileName: null,
             origin: 'input'
         });
     }
@@ -165,27 +154,34 @@ class MinificationApp {
 
     processFile(file) {
         const reader = new FileReader();
-        reader.onload = (e) => {
-            const content = e.target.result;
-            const detectedType = ClientMinifier.detectLanguage(content, file.name);
+        reader.onload = (event) => {
+            const content = event.target.result;
+            const detectedType = MinifyEngine.detectInputType({
+                content,
+                fileName: file.name,
+                mimeType: file.type
+            });
 
             this.currentFile = {
                 name: file.name,
                 content,
-                type: detectedType
+                type: detectedType,
+                mime: file.type
             };
 
             this.fileName.textContent = file.name;
             this.fileType.textContent = this.getTypeLabel(detectedType);
-            this.minifyBtn.disabled = !ClientMinifier.isSupported(detectedType);
 
-            if (!ClientMinifier.isSupported(detectedType)) {
-                alert('Tipo de arquivo não suportado para minificação automática.');
+            const supported = ClientMinifier.isSupported(detectedType);
+            this.minifyBtn.disabled = !supported;
+
+            if (!supported) {
+                this.handleError(new MinifyError('UNSUPPORTED_TYPE', 'Tipo de arquivo não suportado para minificação automática.'));
             }
         };
 
         reader.onerror = () => {
-            alert('Não foi possível ler o arquivo selecionado.');
+            this.handleError(new MinifyError('FILE_READ_ERROR', 'Não foi possível ler o arquivo selecionado.'));
         };
 
         reader.readAsText(file);
@@ -194,44 +190,43 @@ class MinificationApp {
 
     minifyCurrentFile() {
         if (!this.currentFile) {
-            alert('Selecione um arquivo antes de minificar.');
+            this.handleError(new MinifyError('NO_FILE_SELECTED', 'Selecione um arquivo antes de minificar.'));
             return;
         }
 
         if (!ClientMinifier.isSupported(this.currentFile.type)) {
-            alert('Tipo de arquivo não suportado.');
+            this.handleError(new MinifyError('UNSUPPORTED_TYPE', 'Tipo de arquivo não suportado.'));
             return;
         }
 
         this.minifyContent({
             content: this.currentFile.content,
             fileName: this.currentFile.name,
-            detectedType: this.currentFile.type,
             origin: 'file'
         });
     }
 
     // ---- Minificação comum ----
-    minifyContent({ content, fileName, detectedType, origin }) {
+    minifyContent({ content, fileName, origin }) {
         this.showLoading(true, 'Minificando...');
 
         setTimeout(() => {
             try {
                 const options = this.getOptions();
-                const minified = ClientMinifier.minifyCode(content, detectedType, options);
+                const result = MinifyEngine.minifyTextSnippet(content, options);
 
+                const resolvedName = fileName || `codigo-digitado.${result.type}`;
                 this.lastResult = {
-                    fileName,
-                    type: detectedType,
-                    original: content,
-                    minified,
+                    fileName: resolvedName,
+                    type: result.type,
+                    original: result.original,
+                    minified: result.minified,
                     origin
                 };
 
                 this.renderResult();
             } catch (error) {
-                console.error('Erro ao minificar conteúdo:', error);
-                alert('Erro ao minificar conteúdo. Verifique o console para mais detalhes.');
+                this.handleError(error);
             } finally {
                 this.showLoading(false);
             }
@@ -354,7 +349,7 @@ class MinificationApp {
 
     prepareZip(file) {
         if (file.size > this.MAX_ZIP_SIZE) {
-            alert('O arquivo ZIP deve ter no máximo 100 MB.');
+            this.handleError(new MinifyError('ZIP_TOO_LARGE', 'O arquivo ZIP deve ter no máximo 100 MB.'));
             this.zipInput.value = '';
             this.processZipBtn.disabled = true;
             this.selectedZipFile = null;
@@ -370,87 +365,34 @@ class MinificationApp {
 
     async processZip() {
         if (!this.selectedZipFile) {
-            alert('Selecione um arquivo ZIP primeiro.');
+            this.handleError(new MinifyError('ZIP_NOT_SELECTED', 'Selecione um arquivo ZIP primeiro.'));
             return;
         }
 
         if (typeof JSZip === 'undefined') {
-            alert('Biblioteca JSZip não carregada.');
+            this.handleError(new MinifyError('JSZIP_MISSING', 'Biblioteca JSZip não carregada.'));
             return;
         }
 
         this.showLoading(true, 'Processando ZIP...');
 
         try {
-            const { blob, summary } = await this.minifyZipFile(this.selectedZipFile);
+            const { blob, summary } = await MinifyEngine.minifyZipArchive(this.selectedZipFile, this.getOptions(), {
+                onProgress: ({ current, total, file }) => {
+                    this.updateZipStatus(`Processando ZIP: ${current}/${total} • ${file}`);
+                }
+            });
             this.triggerZipDownload(blob, this.selectedZipFile.name);
-            this.updateZipStatus(`ZIP pronto! ${summary.minified}/${summary.totalText} arquivos de texto minificados.`);
+
+            const summaryMessage = `ZIP pronto! ${summary.minified} arquivo(s) minificado(s), ${summary.skipped} mantido(s), ${summary.errors.length} erro(s).`;
+            this.updateZipStatus(summaryMessage);
             this.selectedZipFile = null;
             this.processZipBtn.disabled = true;
         } catch (error) {
-            console.error('Erro ao processar ZIP:', error);
-            alert('Erro ao processar o arquivo ZIP.');
+            this.handleError(error);
         } finally {
             this.showLoading(false);
         }
-    }
-
-    async minifyZipFile(file) {
-        const originalZip = await JSZip.loadAsync(file);
-        const newZip = new JSZip();
-        const entries = [];
-
-        originalZip.forEach((relativePath, zipEntry) => {
-            if (zipEntry.dir) return;
-            entries.push({ relativePath, zipEntry });
-        });
-
-        const summary = {
-            total: entries.length,
-            totalText: 0,
-            minified: 0
-        };
-
-        const options = this.getOptions();
-        let processed = 0;
-
-        for (const { relativePath, zipEntry } of entries) {
-            const typeFromExtension = ClientMinifier.detectLanguage('', relativePath);
-            const shouldMinify = ClientMinifier.isSupported(typeFromExtension);
-
-            if (shouldMinify) {
-                summary.totalText += 1;
-                try {
-                    const content = await zipEntry.async('string');
-                    const detectedType = ClientMinifier.detectLanguage(content, relativePath);
-                    if (ClientMinifier.isSupported(detectedType)) {
-                        const minified = ClientMinifier.minifyCode(content, detectedType, options);
-                        newZip.file(relativePath, minified);
-                        summary.minified += 1;
-                    } else {
-                        newZip.file(relativePath, content);
-                    }
-                } catch (error) {
-                    console.warn(`Falha ao minificar ${relativePath}. Copiando original.`, error);
-                    const originalData = await zipEntry.async('uint8array');
-                    newZip.file(relativePath, originalData);
-                }
-            } else {
-                const binaryData = await zipEntry.async('uint8array');
-                newZip.file(relativePath, binaryData);
-            }
-
-            processed += 1;
-            this.updateZipStatus(`Processando ZIP: ${processed}/${summary.total} arquivos...`);
-        }
-
-        const blob = await newZip.generateAsync({
-            type: 'blob',
-            compression: 'DEFLATE',
-            compressionOptions: { level: 6 }
-        });
-
-        return { blob, summary };
     }
 
     triggerZipDownload(blob, originalName) {
@@ -479,6 +421,12 @@ class MinificationApp {
         if (this.loadingMessage) {
             this.loadingMessage.textContent = message;
         }
+    }
+
+    handleError(error) {
+        const message = MinifyEngine.formatError(error);
+        alert(message);
+        console.error(error);
     }
 }
 
