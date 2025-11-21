@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colar código • Minificador</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔧 Minificador de Código</h1>
+            <p>Minifique HTML, CSS, JavaScript, JSON e PHP diretamente no navegador</p>
+        </header>
+
+        <div class="ads-area ads-top" aria-label="Área de publicidade superior">
+            <span>Espaço reservado para publicidade (Topo)</span>
+        </div>
+
+        <nav class="feature-menu" aria-label="Menu de funcionalidades">
+            <a class="menu-item active" href="paste.html">Colar código</a>
+            <a class="menu-item" href="file.html">Minificar arquivo</a>
+            <a class="menu-item" href="zip.html">Minificar ZIP</a>
+            <a class="menu-item" href="index.html">Início</a>
+        </nav>
+
+        <div class="content-layout">
+            <div class="main-content">
+                <section class="panel panel-highlight">
+                    <div class="panel-header">
+                        <h2>Colar código para minificar</h2>
+                        <p>Cole qualquer snippet (HTML, CSS, JS, JSON, PHP etc.) e deixe que o sistema detecte o tipo automaticamente.</p>
+                    </div>
+                    <textarea id="codeInput" class="code-input" placeholder="Cole seu código aqui..."></textarea>
+                    <div class="panel-footer">
+                        <div class="input-meta">
+                            <p>Tipo detectado: <span id="detectedLanguage">–</span></p>
+                            <small>A detecção acontece em tempo real e você pode ajustar as opções de minificação abaixo.</small>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn-secondary" id="clearCodeBtn">Limpar</button>
+                            <button class="btn-primary" id="minifyCodeBtn">Minificar Código</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="options-panel" style="margin-top:0;">
+                    <div class="minify-options">
+                        <h4>Opções de Minificação:</h4>
+                        <div class="options-grid">
+                            <label class="option-item">
+                                <input type="checkbox" id="removeComments" checked>
+                                Remover comentários
+                            </label>
+                            <label class="option-item">
+                                <input type="checkbox" id="removeSpaces" checked>
+                                Remover espaços extras
+                            </label>
+                            <label class="option-item">
+                                <input type="checkbox" id="removeLineBreaks" checked>
+                                Remover quebras de linha
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="result-area" id="resultArea" style="display: none;">
+                    <div class="result-header">
+                        <div>
+                            <h4>Resultado da Minificação</h4>
+                            <p id="resultMeta"></p>
+                        </div>
+                        <div class="stats">
+                            <span id="originalSize"></span>
+                            <span>→</span>
+                            <span id="minifiedSize"></span>
+                            <span id="reduction"></span>
+                        </div>
+                    </div>
+                    <div class="code-preview">
+                        <pre id="minifiedCode"></pre>
+                    </div>
+                    <div class="action-buttons result-actions">
+                        <button class="btn-primary" id="downloadBtn" style="display: none;">Download</button>
+                        <button class="btn-copy" id="copyBtn" style="display: none;">Copiar Código</button>
+                    </div>
+                </section>
+            </div>
+
+            <aside class="ads-area ads-sidebar" aria-label="Publicidade lateral">
+                <span>Espaço reservado para publicidade (Lateral)</span>
+            </aside>
+        </div>
+
+        <footer>
+            <div class="ads-area ads-footer" aria-label="Publicidade rodapé">
+                <span>Espaço reservado para publicidade (Rodapé)</span>
+            </div>
+        </footer>
+    </div>
+
+    <div class="loading" id="loading" style="display: none;">
+        <div class="spinner"></div>
+        <p id="loadingMessage">Processando...</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <script src="js/minifiers.js"></script>
+    <script src="js/minifyEngine.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

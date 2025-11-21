@@ -7,7 +7,6 @@ class MinificationApp {
 
         this.initializeElements();
         this.bindEvents();
-        this.handleCodeInputChange();
         this.updateZipStatus('Nenhum arquivo ZIP selecionado.');
         this.toggleResultArea(false);
     }
@@ -59,48 +58,80 @@ class MinificationApp {
 
     bindEvents() {
         // Código colado
-        this.codeInput.addEventListener('input', () => this.handleCodeInputChange());
-        this.clearCodeBtn.addEventListener('click', () => this.clearCodeInput());
-        this.minifyCodeBtn.addEventListener('click', () => this.handleCodeMinify());
+        if (this.codeInput) {
+            this.codeInput.addEventListener('input', () => this.handleCodeInputChange());
+        }
+        if (this.clearCodeBtn) {
+            this.clearCodeBtn.addEventListener('click', () => this.clearCodeInput());
+        }
+        if (this.minifyCodeBtn) {
+            this.minifyCodeBtn.addEventListener('click', () => this.handleCodeMinify());
+        }
 
         // Arquivo individual
-        this.selectFileBtn.addEventListener('click', () => this.fileInput.click());
-        this.fileInput.addEventListener('change', (event) => this.handleFileSelect(event));
-        this.uploadArea.addEventListener('dragover', (event) => this.handleDragOver(event, this.uploadArea));
-        this.uploadArea.addEventListener('dragleave', (event) => this.handleDragLeave(event, this.uploadArea));
-        this.uploadArea.addEventListener('drop', (event) => this.handleFileDrop(event));
-        this.minifyBtn.addEventListener('click', () => this.minifyCurrentFile());
+        if (this.selectFileBtn && this.fileInput) {
+            this.selectFileBtn.addEventListener('click', () => this.fileInput.click());
+        }
+        if (this.fileInput) {
+            this.fileInput.addEventListener('change', (event) => this.handleFileSelect(event));
+        }
+        if (this.uploadArea) {
+            this.uploadArea.addEventListener('dragover', (event) => this.handleDragOver(event, this.uploadArea));
+            this.uploadArea.addEventListener('dragleave', (event) => this.handleDragLeave(event, this.uploadArea));
+            this.uploadArea.addEventListener('drop', (event) => this.handleFileDrop(event));
+        }
+        if (this.minifyBtn) {
+            this.minifyBtn.addEventListener('click', () => this.minifyCurrentFile());
+        }
 
         // Resultado
-        this.downloadBtn.addEventListener('click', () => this.downloadFile());
-        this.copyBtn.addEventListener('click', () => this.copyToClipboard());
+        if (this.downloadBtn) {
+            this.downloadBtn.addEventListener('click', () => this.downloadFile());
+        }
+        if (this.copyBtn) {
+            this.copyBtn.addEventListener('click', () => this.copyToClipboard());
+        }
 
         // ZIP
-        this.selectZipBtn.addEventListener('click', () => this.zipInput.click());
-        this.zipInput.addEventListener('change', (event) => this.handleZipSelect(event));
-        this.zipDropArea.addEventListener('dragover', (event) => this.handleDragOver(event, this.zipDropArea));
-        this.zipDropArea.addEventListener('dragleave', (event) => this.handleDragLeave(event, this.zipDropArea));
-        this.zipDropArea.addEventListener('drop', (event) => this.handleZipDrop(event));
-        this.processZipBtn.addEventListener('click', () => this.processZip());
+        if (this.selectZipBtn && this.zipInput) {
+            this.selectZipBtn.addEventListener('click', () => this.zipInput.click());
+        }
+        if (this.zipInput) {
+            this.zipInput.addEventListener('change', (event) => this.handleZipSelect(event));
+        }
+        if (this.zipDropArea) {
+            this.zipDropArea.addEventListener('dragover', (event) => this.handleDragOver(event, this.zipDropArea));
+            this.zipDropArea.addEventListener('dragleave', (event) => this.handleDragLeave(event, this.zipDropArea));
+            this.zipDropArea.addEventListener('drop', (event) => this.handleZipDrop(event));
+        }
+        if (this.processZipBtn) {
+            this.processZipBtn.addEventListener('click', () => this.processZip());
+        }
 
         // Menu de funcionalidades
-        this.menuButtons.forEach((button) => {
-            button.addEventListener('click', () => {
-                this.highlightMenuTarget(button);
-                this.navigateToSection(button.dataset.targetSection);
-            });
-        });
-
         if (this.menuButtons.length > 0) {
+            this.menuButtons.forEach((button) => {
+                button.addEventListener('click', () => {
+                    this.highlightMenuTarget(button);
+                    this.navigateToSection(button.dataset.targetSection);
+                });
+            });
             this.highlightMenuTarget(this.menuButtons[0]);
+        }
+
+        if (this.codeInput) {
+            this.handleCodeInputChange();
         }
     }
 
     // ---- Código colado ----
     handleCodeInputChange() {
+        if (!this.codeInput) return;
         const content = this.codeInput.value;
         const hasContent = content.trim().length > 0;
-        this.minifyCodeBtn.disabled = !hasContent;
+        if (this.minifyCodeBtn) {
+            this.minifyCodeBtn.disabled = !hasContent;
+        }
 
         const detected = hasContent
             ? MinifyEngine.detectInputType({ content })
@@ -109,12 +140,16 @@ class MinificationApp {
     }
 
     clearCodeInput() {
+        if (!this.codeInput) return;
         this.codeInput.value = '';
-        this.minifyCodeBtn.disabled = true;
+        if (this.minifyCodeBtn) {
+            this.minifyCodeBtn.disabled = true;
+        }
         this.updateLanguageLabel('text');
     }
 
     handleCodeMinify() {
+        if (!this.codeInput) return;
         const content = this.codeInput.value;
         if (!content.trim()) {
             this.handleError(new MinifyError('EMPTY_TEXT', 'Cole algum código para minificar.'));
@@ -129,6 +164,7 @@ class MinificationApp {
     }
 
     updateLanguageLabel(type) {
+        if (!this.detectedLanguageLabel) return;
         const labels = {
             html: 'HTML',
             css: 'CSS',
@@ -184,11 +220,17 @@ class MinificationApp {
                 mime: file.type
             };
 
-            this.fileName.textContent = file.name;
-            this.fileType.textContent = this.getTypeLabel(detectedType);
+            if (this.fileName) {
+                this.fileName.textContent = file.name;
+            }
+            if (this.fileType) {
+                this.fileType.textContent = this.getTypeLabel(detectedType);
+            }
 
             const supported = ClientMinifier.isSupported(detectedType);
-            this.minifyBtn.disabled = !supported;
+            if (this.minifyBtn) {
+                this.minifyBtn.disabled = !supported;
+            }
 
             if (!supported) {
                 this.handleError(new MinifyError('UNSUPPORTED_TYPE', 'Tipo de arquivo não suportado para minificação automática.'));
@@ -276,9 +318,9 @@ class MinificationApp {
 
     getOptions() {
         return {
-            removeComments: this.removeComments.checked,
-            removeSpaces: this.removeSpaces.checked,
-            removeLineBreaks: this.removeLineBreaks.checked
+            removeComments: this.removeComments ? this.removeComments.checked : true,
+            removeSpaces: this.removeSpaces ? this.removeSpaces.checked : true,
+            removeLineBreaks: this.removeLineBreaks ? this.removeLineBreaks.checked : true
         };
     }
 

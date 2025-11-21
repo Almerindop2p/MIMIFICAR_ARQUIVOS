@@ -12,7 +12,10 @@ Aplicação web para minificar HTML, CSS, JS, JSON e PHP diretamente no navegado
 ## Estrutura
 ```
 workspace/
-├── index.html          # UI principal
+├── index.html          # Hub principal com menu
+├── paste.html          # Fluxo “Colar código”
+├── file.html           # Fluxo “Minificar arquivo”
+├── zip.html            # Fluxo “Minificar ZIP”
 ├── css/style.css       # Estilos
 ├── js/minifiers.js     # Minificadores para cada tipo
 ├── js/minifyEngine.js  # Orquestrador (texto + ZIP)
@@ -22,15 +25,21 @@ workspace/
 
 ## Como usar (interface)
 ### Colar código
-1. Acesse `index.html`.
-2. Cole o conteúdo no painel “Colar código”.
-3. Confirme o tipo detectado automaticamente (ex.: HTML, JSON).
-4. Clique em **Minificar Código** e copie ou faça download do resultado.
+1. Acesse `paste.html` (ou clique em “Colar código” no menu).
+2. Cole o conteúdo no textarea principal.
+3. Verifique o tipo detectado automaticamente (HTML, CSS, JS, JSON ou PHP).
+4. Ajuste as opções desejadas, clique em **Minificar Código** e copie ou baixe o resultado.
 
-### Enviar um ZIP
-1. Clique em “Selecionar ZIP” (ou arraste o arquivo).
-2. Aguarde o processamento; o progresso aparece no painel.
-3. O download do novo ZIP minificado inicia automaticamente ao final.
+### Minificar arquivo único
+1. Acesse `file.html`.
+2. Envie ou arraste o arquivo suportado.
+3. Ajuste as opções e clique em **Minificar Arquivo** para visualizar e baixar a versão otimizada.
+
+### Minificar ZIP
+1. Acesse `zip.html`.
+2. Envie o ZIP (até 100 MB) com pastas e arquivos suportados.
+3. Aguarde o processamento (progresso exibido em tempo real).
+4. O novo ZIP minificado é baixado automaticamente ao final.
 
 ## Exemplos programáticos
 Mesmo que a aplicação rode no navegador, o módulo `MinifyEngine` pode ser reutilizado em outras páginas:
