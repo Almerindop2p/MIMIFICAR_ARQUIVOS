@@ -1,0 +1,260 @@
+
+/* 
+    Created on : 21 de nov. de 2025, 08:42:03
+    Author     : almerindo.junior
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+header {
+    background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+header p {
+    opacity: 0.9;
+    font-size: 1.1em;
+}
+
+.upload-area {
+    border: 3px dashed #3498db;
+    border-radius: 10px;
+    margin: 30px;
+    padding: 50px 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.upload-area.dragover {
+    background: #e3f2fd;
+    border-color: #2196f3;
+    transform: scale(1.02);
+}
+
+.upload-content h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 1.3em;
+}
+
+.upload-content p {
+    color: #7f8c8d;
+    margin: 10px 0;
+}
+
+.btn-primary, .btn-secondary, .btn-copy {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 5px;
+}
+
+.btn-primary {
+    background: #3498db;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #95a5a6;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #7f8c8d;
+}
+
+.btn-copy {
+    background: #27ae60;
+    color: white;
+}
+
+.btn-copy:hover {
+    background: #219a52;
+}
+
+.options-panel {
+    margin: 0 30px 30px;
+    padding: 25px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #3498db;
+}
+
+.file-info {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.file-info h4 {
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.minify-options h4 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.option-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.option-item:hover {
+    background: #e3f2fd;
+}
+
+.option-item input {
+    margin-right: 10px;
+}
+
+.action-buttons {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.result-area {
+    margin: 0 30px 30px;
+    background: #2c3e50;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.result-header {
+    background: #34495e;
+    padding: 15px 20px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.stats {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 0.9em;
+}
+
+.stats span:first-child {
+    color: #e74c3c;
+}
+
+.stats span:last-child {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.code-preview {
+    padding: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.code-preview pre {
+    color: #ecf0f1;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    color: white;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 600px) {
+    .container {
+        margin: 10px;
+    }
+    
+    .upload-area, .options-panel, .result-area {
+        margin: 15px;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .btn-primary, .btn-secondary, .btn-copy {
+        width: 100%;
+    }
+}

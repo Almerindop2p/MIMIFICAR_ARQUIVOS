@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado da Minificacao</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Minificador de Codigo</h1>
+            <p>Minifique HTML, CSS e JavaScript</p>
+        </header>
+
+        <div class="options-panel">
+            <div class="file-info">
+                <h4>Arquivo: <span id="fileName"></span></h4>
+                <p>Tipo: <span id="fileType"></span></p>
+            </div>
+            <div class="action-buttons">
+                <a class="btn-secondary" href="index.html">Voltar</a>
+                <button class="btn-primary" id="downloadBtn" style="display: none;">Download</button>
+                <button class="btn-copy" id="copyBtn" style="display: none;">Copiar Codigo</button>
+            </div>
+        </div>
+
+        <div class="result-area" id="resultArea" style="display: none;">
+            <div class="result-header">
+                <h4>Resultado da Minificacao</h4>
+                <div class="stats">
+                    <span id="originalSize"></span>
+                    <span>→</span>
+                    <span id="minifiedSize"></span>
+                    <span id="reduction"></span>
+                </div>
+            </div>
+            <div class="code-preview">
+                <pre id="minifiedCode"></pre>
+            </div>
+        </div>
+
+        <div class="loading" id="loading" style="display: flex;">
+            <div class="spinner"></div>
+            <p>Minificando...</p>
+        </div>
+
+        <div class="result-area" id="fallbackMessage" style="display: none;">
+            <div class="result-header">
+                <h4>Nenhum dado para minificar</h4>
+            </div>
+            <p style="padding: 15px;">Selecione um arquivo na pagina inicial e tente novamente.</p>
+            <div class="action-buttons">
+                <a class="btn-secondary" href="index.html">Voltar</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/minifiers.js"></script>
+    <script src="js/result.js"></script>
+</body>
+</html>
