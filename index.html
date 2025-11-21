@@ -13,110 +13,135 @@
             <p>Minifique HTML, CSS, JavaScript, JSON e PHP diretamente no navegador</p>
         </header>
 
-        <section class="panel panel-highlight">
-            <div class="panel-header">
-                <h2>1. Colar código para minificar</h2>
-                <p>Cole qualquer snippet (HTML, CSS, JS, JSON, PHP etc.) e deixe que o sistema detecte o tipo automaticamente.</p>
-            </div>
-            <textarea id="codeInput" class="code-input" placeholder="Cole seu código aqui..."></textarea>
-            <div class="panel-footer">
-                <div class="input-meta">
-                    <p>Tipo detectado: <span id="detectedLanguage">–</span></p>
-                    <small>A detecção acontece em tempo real e você pode ajustar as opções de minificação abaixo.</small>
-                </div>
-                <div class="action-buttons">
-                    <button class="btn-secondary" id="clearCodeBtn">Limpar</button>
-                    <button class="btn-primary" id="minifyCodeBtn">Minificar Código</button>
-                </div>
-            </div>
-        </section>
+        <div class="ads-area ads-top" aria-label="Área de publicidade superior">
+            <span>Espaço reservado para publicidade (Topo)</span>
+        </div>
 
-        <section class="panel upload-panel">
-            <div class="panel-header">
-                <h2>2. Minificar um arquivo</h2>
-                <p>Arraste e solte um arquivo ou clique para selecionar. Aceita HTML, CSS, JS, JSON e PHP.</p>
-            </div>
-            <div class="upload-area" id="uploadArea">
-                <div class="upload-content">
-                    <i class="upload-icon">📁</i>
-                    <h3>Arraste seu arquivo aqui</h3>
-                    <p>ou</p>
-                    <button class="btn-primary" id="selectFileBtn" type="button">Selecionar Arquivo</button>
-                    <input type="file" id="fileInput" accept=".html,.htm,.css,.js,.json,.php,.txt" hidden>
-                </div>
-            </div>
+        <nav class="feature-menu" aria-label="Menu de funcionalidades">
+            <button class="menu-item" type="button" data-target-section="pasteSection">Colar código</button>
+            <button class="menu-item" type="button" data-target-section="fileSection">Minificar arquivo</button>
+            <button class="menu-item" type="button" data-target-section="zipSection">Minificar ZIP</button>
+            <button class="menu-item" type="button" data-target-section="resultArea">Resultados</button>
+        </nav>
 
-            <div class="options-panel" id="optionsPanel">
-                <div class="file-info">
-                    <h4>Arquivo: <span id="fileName">Nenhum arquivo selecionado</span></h4>
-                    <p>Tipo detectado: <span id="fileType">–</span></p>
-                </div>
-                
-                <div class="minify-options">
-                    <h4>Opções de Minificação:</h4>
-                    <div class="options-grid">
-                        <label class="option-item">
-                            <input type="checkbox" id="removeComments" checked>
-                            Remover comentários
-                        </label>
-                        <label class="option-item">
-                            <input type="checkbox" id="removeSpaces" checked>
-                            Remover espaços extras
-                        </label>
-                        <label class="option-item">
-                            <input type="checkbox" id="removeLineBreaks" checked>
-                            Remover quebras de linha
-                        </label>
+        <div class="content-layout">
+            <div class="main-content">
+                <section class="panel panel-highlight" id="pasteSection">
+                    <div class="panel-header">
+                        <h2>1. Colar código para minificar</h2>
+                        <p>Cole qualquer snippet (HTML, CSS, JS, JSON, PHP etc.) e deixe que o sistema detecte o tipo automaticamente.</p>
                     </div>
-                </div>
+                    <textarea id="codeInput" class="code-input" placeholder="Cole seu código aqui..."></textarea>
+                    <div class="panel-footer">
+                        <div class="input-meta">
+                            <p>Tipo detectado: <span id="detectedLanguage">–</span></p>
+                            <small>A detecção acontece em tempo real e você pode ajustar as opções de minificação abaixo.</small>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn-secondary" id="clearCodeBtn">Limpar</button>
+                            <button class="btn-primary" id="minifyCodeBtn">Minificar Código</button>
+                        </div>
+                    </div>
+                </section>
 
-                <div class="action-buttons">
-                    <button class="btn-secondary" id="minifyBtn" type="button" disabled>Minificar Arquivo</button>
-                </div>
-            </div>
-        </section>
+                <section class="panel upload-panel" id="fileSection">
+                    <div class="panel-header">
+                        <h2>2. Minificar um arquivo</h2>
+                        <p>Arraste e solte um arquivo ou clique para selecionar. Aceita HTML, CSS, JS, JSON e PHP.</p>
+                    </div>
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-content">
+                            <i class="upload-icon">📁</i>
+                            <h3>Arraste seu arquivo aqui</h3>
+                            <p>ou</p>
+                            <button class="btn-primary" id="selectFileBtn" type="button">Selecionar Arquivo</button>
+                            <input type="file" id="fileInput" accept=".html,.htm,.css,.js,.json,.php,.txt" hidden>
+                        </div>
+                    </div>
 
-        <section class="panel zip-panel">
-            <div class="panel-header">
-                <h2>3. Minificar um ZIP completo (até 100 MB)</h2>
-                <p>Todos os arquivos HTML, CSS, JS, JSON e PHP serão minificados mantendo a estrutura original.</p>
-            </div>
-            <div class="upload-area zip-drop" id="zipDropArea">
-                <div class="upload-content">
-                    <i class="upload-icon">🗜️</i>
-                    <h3>Arraste seu ZIP aqui</h3>
-                    <p>ou</p>
-                    <button class="btn-primary" id="selectZipBtn" type="button">Selecionar ZIP</button>
-                    <input type="file" id="zipInput" accept=".zip" hidden>
-                </div>
-            </div>
-            <p class="zip-status" id="zipStatus">Nenhum arquivo ZIP selecionado.</p>
-            <div class="action-buttons">
-                <button class="btn-primary" id="processZipBtn" type="button" disabled>Processar ZIP</button>
-            </div>
-        </section>
+                    <div class="options-panel" id="optionsPanel">
+                        <div class="file-info">
+                            <h4>Arquivo: <span id="fileName">Nenhum arquivo selecionado</span></h4>
+                            <p>Tipo detectado: <span id="fileType">–</span></p>
+                        </div>
+                        
+                        <div class="minify-options">
+                            <h4>Opções de Minificação:</h4>
+                            <div class="options-grid">
+                                <label class="option-item">
+                                    <input type="checkbox" id="removeComments" checked>
+                                    Remover comentários
+                                </label>
+                                <label class="option-item">
+                                    <input type="checkbox" id="removeSpaces" checked>
+                                    Remover espaços extras
+                                </label>
+                                <label class="option-item">
+                                    <input type="checkbox" id="removeLineBreaks" checked>
+                                    Remover quebras de linha
+                                </label>
+                            </div>
+                        </div>
 
-        <section class="result-area" id="resultArea" style="display: none;">
-            <div class="result-header">
-                <div>
-                    <h4>Resultado da Minificação</h4>
-                    <p id="resultMeta"></p>
-                </div>
-                <div class="stats">
-                    <span id="originalSize"></span>
-                    <span>→</span>
-                    <span id="minifiedSize"></span>
-                    <span id="reduction"></span>
-                </div>
+                        <div class="action-buttons">
+                            <button class="btn-secondary" id="minifyBtn" type="button" disabled>Minificar Arquivo</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="panel zip-panel" id="zipSection">
+                    <div class="panel-header">
+                        <h2>3. Minificar um ZIP completo (até 100 MB)</h2>
+                        <p>Todos os arquivos HTML, CSS, JS, JSON e PHP serão minificados mantendo a estrutura original.</p>
+                    </div>
+                    <div class="upload-area zip-drop" id="zipDropArea">
+                        <div class="upload-content">
+                            <i class="upload-icon">🗜️</i>
+                            <h3>Arraste seu ZIP aqui</h3>
+                            <p>ou</p>
+                            <button class="btn-primary" id="selectZipBtn" type="button">Selecionar ZIP</button>
+                            <input type="file" id="zipInput" accept=".zip" hidden>
+                        </div>
+                    </div>
+                    <p class="zip-status" id="zipStatus">Nenhum arquivo ZIP selecionado.</p>
+                    <div class="action-buttons">
+                        <button class="btn-primary" id="processZipBtn" type="button" disabled>Processar ZIP</button>
+                    </div>
+                </section>
+
+                <section class="result-area" id="resultArea" style="display: none;">
+                    <div class="result-header">
+                        <div>
+                            <h4>Resultado da Minificação</h4>
+                            <p id="resultMeta"></p>
+                        </div>
+                        <div class="stats">
+                            <span id="originalSize"></span>
+                            <span>→</span>
+                            <span id="minifiedSize"></span>
+                            <span id="reduction"></span>
+                        </div>
+                    </div>
+                    <div class="code-preview">
+                        <pre id="minifiedCode"></pre>
+                    </div>
+                    <div class="action-buttons result-actions">
+                        <button class="btn-primary" id="downloadBtn" style="display: none;">Download</button>
+                        <button class="btn-copy" id="copyBtn" style="display: none;">Copiar Código</button>
+                    </div>
+                </section>
             </div>
-            <div class="code-preview">
-                <pre id="minifiedCode"></pre>
+
+            <aside class="ads-area ads-sidebar" aria-label="Publicidade lateral">
+                <span>Espaço reservado para publicidade (Lateral)</span>
+            </aside>
+        </div>
+
+        <footer>
+            <div class="ads-area ads-footer" aria-label="Publicidade rodapé">
+                <span>Espaço reservado para publicidade (Rodapé)</span>
             </div>
-            <div class="action-buttons result-actions">
-                <button class="btn-primary" id="downloadBtn" style="display: none;">Download</button>
-                <button class="btn-copy" id="copyBtn" style="display: none;">Copiar Código</button>
-            </div>
-        </section>
+        </footer>
     </div>
 
     <div class="loading" id="loading" style="display: none;">

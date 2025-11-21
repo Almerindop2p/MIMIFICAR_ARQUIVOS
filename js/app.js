@@ -52,6 +52,9 @@ class MinificationApp {
         // Loading
         this.loading = document.getElementById('loading');
         this.loadingMessage = document.getElementById('loadingMessage');
+
+        // Menu de funcionalidades
+        this.menuButtons = document.querySelectorAll('[data-target-section]');
     }
 
     bindEvents() {
@@ -79,6 +82,18 @@ class MinificationApp {
         this.zipDropArea.addEventListener('dragleave', (event) => this.handleDragLeave(event, this.zipDropArea));
         this.zipDropArea.addEventListener('drop', (event) => this.handleZipDrop(event));
         this.processZipBtn.addEventListener('click', () => this.processZip());
+
+        // Menu de funcionalidades
+        this.menuButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                this.highlightMenuTarget(button);
+                this.navigateToSection(button.dataset.targetSection);
+            });
+        });
+
+        if (this.menuButtons.length > 0) {
+            this.highlightMenuTarget(this.menuButtons[0]);
+        }
     }
 
     // ---- Código colado ----
@@ -427,6 +442,20 @@ class MinificationApp {
         const message = MinifyEngine.formatError(error);
         alert(message);
         console.error(error);
+    }
+
+    navigateToSection(sectionId) {
+        if (!sectionId) return;
+        const target = document.getElementById(sectionId);
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    highlightMenuTarget(activeButton) {
+        this.menuButtons.forEach((button) => {
+            button.classList.toggle('active', button === activeButton);
+        });
     }
 }
 
