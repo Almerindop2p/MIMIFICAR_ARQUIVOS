@@ -10,72 +10,72 @@
     <div class="container">
         <header>
             <h1>🔧 Minificador de Código</h1>
-            <p>Minifique HTML, CSS e JavaScript</p>
+            <p>Minifique HTML, CSS, JavaScript, JSON e PHP diretamente no navegador</p>
         </header>
 
-        <div class="upload-area" id="uploadArea">
-            <div class="upload-content">
-                <i class="upload-icon">📁</i>
-                <h3>Arraste seu arquivo aqui</h3>
-                <p>ou</p>
-                <button class="btn-primary" id="selectFileBtn">Selecionar Arquivo</button>
-                <input type="file" id="fileInput" accept=".html,.htm,.js,.css" hidden>
-            </div>
+        <div class="ads-area ads-top" aria-label="Área de publicidade superior">
+            <span>Espaço reservado para publicidade (Topo)</span>
         </div>
 
-        <div class="options-panel" id="optionsPanel" style="display: none;">
-            <div class="file-info">
-                <h4>Arquivo: <span id="fileName"></span></h4>
-                <p>Tipo: <span id="fileType"></span></p>
-            </div>
-            
-            <div class="minify-options">
-                <h4>Opções de Minificação:</h4>
-                <div class="options-grid">
-                    <label class="option-item">
-                        <input type="checkbox" id="removeComments" checked>
-                        Remover comentários
-                    </label>
-                    <label class="option-item">
-                        <input type="checkbox" id="removeSpaces" checked>
-                        Remover espaços extras
-                    </label>
-                    <label class="option-item">
-                        <input type="checkbox" id="removeLineBreaks" checked>
-                        Remover quebras de linha
-                    </label>
-                </div>
+        <nav class="feature-menu" aria-label="Menu de funcionalidades">
+            <a class="menu-item" href="paste.html">Colar código</a>
+            <a class="menu-item" href="file.html">Minificar arquivo</a>
+            <a class="menu-item" href="zip.html">Minificar ZIP</a>
+        </nav>
+
+        <div class="content-layout">
+            <div class="main-content">
+                <section class="panel panel-highlight">
+                    <div class="panel-header">
+                        <h2>Escolha o modo de minificação</h2>
+                        <p>Selecione abaixo a opção desejada para colar código, enviar um arquivo individual ou processar um ZIP completo.</p>
+                    </div>
+                    <div class="options-grid">
+                        <div class="option-item">
+                            <div>
+                                <strong>Colar código</strong>
+                                <p style="margin:5px 0;color:#7f8c8d;">Cole HTML, CSS ou JS e veja o resultado imediatamente.</p>
+                            </div>
+                            <a class="btn-primary" href="paste.html">Abrir</a>
+                        </div>
+                        <div class="option-item">
+                            <div>
+                                <strong>Minificar arquivo</strong>
+                                <p style="margin:5px 0;color:#7f8c8d;">Envie um arquivo único e faça o download da versão otimizada.</p>
+                            </div>
+                            <a class="btn-primary" href="file.html">Abrir</a>
+                        </div>
+                        <div class="option-item">
+                            <div>
+                                <strong>Minificar ZIP</strong>
+                                <p style="margin:5px 0;color:#7f8c8d;">Comprima uma pasta com vários arquivos e receba tudo minificado.</p>
+                            </div>
+                            <a class="btn-primary" href="zip.html">Abrir</a>
+                        </div>
+                    </div>
+                </section>
             </div>
 
-            <div class="action-buttons">
-                <button class="btn-secondary" id="minifyBtn">Minificar</button>
-                <button class="btn-primary" id="downloadBtn" style="display: none;">Download</button>
-                <button class="btn-copy" id="copyBtn" style="display: none;">Copiar Código</button>
-            </div>
+            <aside class="ads-area ads-sidebar" aria-label="Publicidade lateral">
+                <span>Espaço reservado para publicidade (Lateral)</span>
+            </aside>
         </div>
 
-        <div class="result-area" id="resultArea" style="display: none;">
-            <div class="result-header">
-                <h4>Resultado da Minificação</h4>
-                <div class="stats">
-                    <span id="originalSize"></span>
-                    <span>→</span>
-                    <span id="minifiedSize"></span>
-                    <span id="reduction"></span>
-                </div>
+        <footer>
+            <div class="ads-area ads-footer" aria-label="Publicidade rodapé">
+                <span>Espaço reservado para publicidade (Rodapé)</span>
             </div>
-            <div class="code-preview">
-                <pre id="minifiedCode"></pre>
-            </div>
-        </div>
-
-        <div class="loading" id="loading" style="display: none;">
-            <div class="spinner"></div>
-            <p>Minificando...</p>
-        </div>
+        </footer>
     </div>
 
+    <div class="loading" id="loading" style="display: none;">
+        <div class="spinner"></div>
+        <p id="loadingMessage">Processando...</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
     <script src="js/minifiers.js"></script>
+    <script src="js/minifyEngine.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minificar ZIP • Minificador</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔧 Minificador de Código</h1>
+            <p>Minifique HTML, CSS, JavaScript, JSON e PHP diretamente no navegador</p>
+        </header>
+
+        <div class="ads-area ads-top" aria-label="Área de publicidade superior">
+            <span>Espaço reservado para publicidade (Topo)</span>
+        </div>
+
+        <nav class="feature-menu" aria-label="Menu de funcionalidades">
+            <a class="menu-item" href="paste.html">Colar código</a>
+            <a class="menu-item" href="file.html">Minificar arquivo</a>
+            <a class="menu-item active" href="zip.html">Minificar ZIP</a>
+            <a class="menu-item" href="index.html">Início</a>
+        </nav>
+
+        <div class="content-layout">
+            <div class="main-content">
+                <section class="panel zip-panel">
+                    <div class="panel-header">
+                        <h2>Minificar um ZIP completo (até 100 MB)</h2>
+                        <p>Todos os arquivos HTML, CSS, JS, JSON e PHP serão minificados mantendo a estrutura original.</p>
+                    </div>
+                    <div class="upload-area zip-drop" id="zipDropArea">
+                        <div class="upload-content">
+                            <i class="upload-icon">🗜️</i>
+                            <h3>Arraste seu ZIP aqui</h3>
+                            <p>ou</p>
+                            <button class="btn-primary" id="selectZipBtn" type="button">Selecionar ZIP</button>
+                            <input type="file" id="zipInput" accept=".zip" hidden>
+                        </div>
+                    </div>
+                    <p class="zip-status" id="zipStatus">Nenhum arquivo ZIP selecionado.</p>
+                    <div class="action-buttons">
+                        <button class="btn-primary" id="processZipBtn" type="button" disabled>Processar ZIP</button>
+                    </div>
+                </section>
+
+                <section class="options-panel" style="margin-top:0;">
+                    <div class="minify-options">
+                        <h4>Opções aplicadas a todos os arquivos:</h4>
+                        <div class="options-grid">
+                            <label class="option-item">
+                                <input type="checkbox" id="removeComments" checked>
+                                Remover comentários
+                            </label>
+                            <label class="option-item">
+                                <input type="checkbox" id="removeSpaces" checked>
+                                Remover espaços extras
+                            </label>
+                            <label class="option-item">
+                                <input type="checkbox" id="removeLineBreaks" checked>
+                                Remover quebras de linha
+                            </label>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <aside class="ads-area ads-sidebar" aria-label="Publicidade lateral">
+                <span>Espaço reservado para publicidade (Lateral)</span>
+            </aside>
+        </div>
+
+        <footer>
+            <div class="ads-area ads-footer" aria-label="Publicidade rodapé">
+                <span>Espaço reservado para publicidade (Rodapé)</span>
+            </div>
+        </footer>
+    </div>
+
+    <div class="loading" id="loading" style="display: none;">
+        <div class="spinner"></div>
+        <p id="loadingMessage">Processando...</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <script src="js/minifiers.js"></script>
+    <script src="js/minifyEngine.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
