@@ -43,6 +43,66 @@ header p {
     font-size: 1.1em;
 }
 
+.panel {
+    margin: 30px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.panel-highlight {
+    border-left: 5px solid #764ba2;
+}
+
+.panel-header h2 {
+    font-size: 1.4em;
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+.panel-header p {
+    color: #7f8c8d;
+    font-size: 0.95em;
+}
+
+.panel-footer {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.code-input {
+    width: 100%;
+    min-height: 180px;
+    margin-top: 20px;
+    padding: 15px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    border: 2px dashed #bdc3c7;
+    border-radius: 10px;
+    resize: vertical;
+    transition: border 0.3s ease;
+}
+
+.code-input:focus {
+    outline: none;
+    border-color: #764ba2;
+}
+
+.input-meta p {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.input-meta small {
+    color: #7f8c8d;
+}
+
 .upload-area {
     border: 3px dashed #3498db;
     border-radius: 10px;
@@ -68,6 +128,12 @@ header p {
 .upload-content p {
     color: #7f8c8d;
     margin: 10px 0;
+}
+
+.upload-icon {
+    font-size: 32px;
+    display: block;
+    margin-bottom: 10px;
 }
 
 .btn-primary, .btn-secondary, .btn-copy {
@@ -163,6 +229,22 @@ header p {
     flex-wrap: wrap;
 }
 
+.result-actions {
+    justify-content: flex-end;
+}
+
+.zip-panel .upload-area {
+    margin: 20px 0;
+    border-color: #8e44ad;
+}
+
+.zip-status {
+    margin: 0 0 10px;
+    color: #2c3e50;
+    font-weight: 500;
+    padding: 0 5px;
+}
+
 .result-area {
     margin: 0 30px 30px;
     background: #2c3e50;
@@ -178,6 +260,12 @@ header p {
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+}
+
+.result-header p {
+    margin-top: 5px;
+    font-size: 0.9em;
+    opacity: 0.8;
 }
 
 .stats {
@@ -246,7 +334,7 @@ header p {
         margin: 10px;
     }
     
-    .upload-area, .options-panel, .result-area {
+    .panel, .upload-area, .options-panel, .result-area {
         margin: 15px;
     }
     
